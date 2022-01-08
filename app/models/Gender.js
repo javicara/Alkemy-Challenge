@@ -8,6 +8,7 @@ const db = require('../util/database');
     gender_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true
     },
     name: {
       type: Sequelize.STRING,

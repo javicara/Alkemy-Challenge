@@ -10,6 +10,7 @@ const Movie = db.define(
       movie_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true
       },
       title: {
         type: Sequelize.STRING,
@@ -25,7 +26,7 @@ const Movie = db.define(
       },
       gender_id:{
         type: Sequelize.INTEGER,
-      
+        
       }
     },
     { 

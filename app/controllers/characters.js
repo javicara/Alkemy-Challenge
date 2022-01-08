@@ -6,6 +6,8 @@ module.exports = {
     createCharacter,
     getCharacters,
     getOneCharacter,
+    getCharacterName,
+    getCharacterAge,
     deleteCharacter,
     modifyCharacter,
   },
@@ -74,7 +76,7 @@ async function modifyCharacter(req, res) {
 
 async function getCharacters(req, res) {
   try {
-    let characters = await Character.findAll();
+    let characters = await Character.findAll(({attributes: ['name', 'image']}));
 
     if (characters) {
       res.status(200).json({
@@ -82,8 +84,10 @@ async function getCharacters(req, res) {
         data: characters,
       });
     } else {
-      res.status(404);
-    }
+      res.status(404).json({
+        message: "not found",
+        data:''})
+      }
   } catch (error) {
     res.status(500).json({
       message: " Something goes wrong",
@@ -105,6 +109,68 @@ async function getOneCharacter(req, res) {
       res.status(200).json({
         message: " succesfull",
         data: characters,
+      });
+    }else{
+      res.status(404).json({
+        message: "not found",
+        data:''
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: " Erorr: " + error.message,
+      data: "",
+    });
+  }
+}
+
+async function getCharacterName(req, res) {
+  const { name } = req.params;
+  try {
+    let character = await Character.findOne({
+      where: {
+        name: name,
+      },
+    });
+
+    if (character) {
+      res.status(200).json({
+        message: " succesfull",
+        data: character,
+      });
+    }else{
+      res.status(404).json({
+        message: "not found",
+        data:''
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: " Erorr: " + error.message,
+      data: "",
+    });
+  }
+}
+
+async function getCharacterAge(req, res) {
+  const { age } = req.params;
+  console.log(age);
+  try {
+    let character = await Character.findOne({
+      where: {
+        age: age,
+      },
+    });
+
+    if (character) {
+      res.status(200).json({
+        message: " succesfull",
+        data: character,
+      });
+    }else{
+      res.status(404).json({
+        message: "not found",
+        data:''
       });
     }
   } catch (error) {

@@ -1,5 +1,8 @@
 const express = require("express");
 const characterRoutes = require("./routes/characters");
+const moviesRoutes = require("./routes/movies");
+const gendersRoutes = require("./routes/genders");
+
 const sequelize = require("./util/database");
 const Character = require("./models/Character");
 const Movie = require("./models/Movie");
@@ -17,15 +20,21 @@ app.use(express.urlencoded({ extended: true }));
   next();
 }) */
 
+const baseUrl = '/api/v1';
+
+
 app.use("/users", require("./routes/users"));
-app.use("/api/v1/characters", characterRoutes);
+app.use(`${baseUrl}/characters`, characterRoutes);
+app.use(`${baseUrl}/movies`, moviesRoutes);
+app.use(`${baseUrl}/genders`, gendersRoutes);
+
 
 async function createTables() {
   try {
     Movie.belongsToMany(Character, { through: "characters_movies" }),
       Character.belongsToMany(Movie, { through: "characters_movies" }),
       Gender.hasMany(Movie, { foreignKey: "gender_id" }),
-      Movie.belongsTo(Gender);
+      Movie.belongsTo(Gender, { foreignKey: "gender_id" });
     await sequelize.sync({ force: false });
   } catch (error) {
     console.error(error);
