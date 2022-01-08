@@ -1,0 +1,35 @@
+version: '3.8'
+
+services: 
+  node_backend:
+    container_name: node_alkemy
+    image: node_alkemy:0.0.5
+    build: 
+      context: .
+    ports:
+      - "3001:3001"
+    environment: 
+      - EXTERNAL_PORT=3001
+      - PGDATABASE=alkemy
+      - PGUSER=alkemy
+      - PGPASSWORD=password
+      - PGHOST=node_db
+    depends_on: 
+      - node_db
+  node_db: 
+    container_name: alkemy_db_docker
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment: 
+      - POSTGRES_USER=alkemy
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=alkemy
+    volumes:
+      - nps_data:/var/lib/postgresql/data
+
+volumes:
+  nps_data: {}
+
+  
+    
