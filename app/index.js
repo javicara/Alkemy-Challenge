@@ -40,6 +40,11 @@ async function createTables() {
     console.error(error);
   }
 }
-//createTables();
+createTables();
 app.listen(process.env.EXTERNAL_PORT || 3002);
-console.log("server runing in: 3002");
+if (process.env.EXTERNAL_PORT) {
+  console.log("server runing in:", process.env.EXTERNAL_PORT);
+
+} else {
+  console.log("server runing in: 3002");
+}

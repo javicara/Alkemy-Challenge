@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 //docker
-/* const sequelize = new Sequelize(
+ const sequelize = new Sequelize(
   process.env.PGDATABASE,
   process.env.PGUSER,
   process.env.PGPASSWORD,
@@ -9,9 +9,10 @@ const Sequelize = require('sequelize');
     host: process.env.PGHOST,
     dialect: 'postgres'
   }
-) */
+) 
 
 //local 
+/*
 const sequelize = new Sequelize("alkemy", "alkemy", "alkemy", {
   host: "localhost",
   dialect: "postgres",
@@ -23,7 +24,7 @@ const sequelize = new Sequelize("alkemy", "alkemy", "alkemy", {
   },
   logging: false,
 });
-
+*/
 module.exports = sequelize;
 
 //podria usar db local, pero esta bueno para aprender, host ahora es el service que definimos en el el docker-compose
