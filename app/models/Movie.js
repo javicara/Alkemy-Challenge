@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../util/database');
 const Character = require('./Character');
-const Gender = require('./Gender')
+const Gender = require('./Genders')
 
 
 const Movie = db.define(

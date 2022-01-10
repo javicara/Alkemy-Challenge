@@ -6,7 +6,7 @@ const gendersRoutes = require("./routes/genders");
 const sequelize = require("./util/database");
 const Character = require("./models/Character");
 const Movie = require("./models/Movie");
-const Gender = require("./models/Gender");
+const Gender = require("./models/Genders");
 const morgan = require("morgan");
 
 const app = express();

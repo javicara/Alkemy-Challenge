@@ -1,4 +1,4 @@
-const Gender = require("../models/gender");
+const Gender = require("../models/genders");
 
 module.exports = {
   v1: {
