@@ -1,4 +1,5 @@
 const Character = require("../models/Character");
+const Movie = require("../models/Movie");
 
 module.exports = {
   v1: {
@@ -6,8 +7,6 @@ module.exports = {
     createCharacter,
     getCharacters,
     getOneCharacter,
-    getCharacterName,
-    getCharacterAge,
     deleteCharacter,
     modifyCharacter,
   },
@@ -45,10 +44,9 @@ async function createCharacter(req, res) {
 
 async function modifyCharacter(req, res) {
   const { id } = req.params;
-  const {character_id, name, image, age, weight, history } = req.body;
+  const { character_id, name, image, age, weight, history } = req.body;
   try {
     let characterModified = await Character.update(
-      
       {
         character_id: character_id || id,
         name,
@@ -75,27 +73,113 @@ async function modifyCharacter(req, res) {
 }
 
 async function getCharacters(req, res) {
-  try {
-    let characters = await Character.findAll(({attributes: ['name', 'image']}));
+  console.log("Get Characters", req.query);
 
-    if (characters) {
-      res.status(200).json({
-        message: " Succesfull",
-        data: characters,
+  if (req.query.name) {
+    try {
+      let characters = await Character.findAll({
+        where: { name: req.query.name },
+        attributes: ["name", "image"],
       });
-    } else {
-      res.status(404).json({
-        message: "not found",
-        data:''})
+
+      if (characters) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: characters,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
       }
-  } catch (error) {
-    res.status(500).json({
-      message: " Something goes wrong",
-      data: "",
-    });
+    } catch (error) {
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
+  } else if (req.query.age) {
+    try {
+      let characters = await Character.findAll({
+        where: { age: req.query.age },
+        attributes: ["name", "image", "age"],
+      });
+
+      if (characters) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: characters,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
+  } else if (req.query.movies) {
+    console.log('entra')
+    try {
+      let characters = await Character.findAll({
+        include: [
+          {
+            model: Movie,
+            attributes: [],
+            where:{movie_id:req.query.movies}
+          }
+  
+        ]
+      });
+
+      if (characters) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: characters,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
+  } else {
+    try {
+      let characters = await Character.findAll({
+        attributes: ["name", "image"],
+      });
+
+      if (characters) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: characters,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
   }
 }
-
 async function getOneCharacter(req, res) {
   const { id } = req.params;
   try {
@@ -110,67 +194,10 @@ async function getOneCharacter(req, res) {
         message: " succesfull",
         data: characters,
       });
-    }else{
+    } else {
       res.status(404).json({
         message: "not found",
-        data:''
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      message: " Erorr: " + error.message,
-      data: "",
-    });
-  }
-}
-
-async function getCharacterName(req, res) {
-  const { name } = req.params;
-  try {
-    let character = await Character.findOne({
-      where: {
-        name: name,
-      },
-    });
-
-    if (character) {
-      res.status(200).json({
-        message: " succesfull",
-        data: character,
-      });
-    }else{
-      res.status(404).json({
-        message: "not found",
-        data:''
-      });
-    }
-  } catch (error) {
-    res.status(500).json({
-      message: " Erorr: " + error.message,
-      data: "",
-    });
-  }
-}
-
-async function getCharacterAge(req, res) {
-  const { age } = req.params;
-  console.log(age);
-  try {
-    let character = await Character.findOne({
-      where: {
-        age: age,
-      },
-    });
-
-    if (character) {
-      res.status(200).json({
-        message: " succesfull",
-        data: character,
-      });
-    }else{
-      res.status(404).json({
-        message: "not found",
-        data:''
+        data: "",
       });
     }
   } catch (error) {

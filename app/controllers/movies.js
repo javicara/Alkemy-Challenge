@@ -1,6 +1,7 @@
 const Movie = require("../models/Movie");
 const Gender = require("../models/Genders");
 const Character = require("../models/Character");
+const CharacterMovies = require("../models/Characters_Movies")
 
 module.exports = {
   v1: {
@@ -9,6 +10,8 @@ module.exports = {
     createMovie,
     modifyMovie,
     deleteMovie,
+    addCharacterToMovie,
+    addCharacterToMovie2
   },
 };
 
@@ -44,7 +47,8 @@ async function getOneMovie(req, res) {
           model: Gender,
           attributes: ["name"],
         },{
-          model: Character
+          model: Character,
+          attributes: ["name","image","age","weight","history"]
         }
       ],
     });
@@ -154,4 +158,68 @@ async function deleteMovie(req, res) {
       data: "",
     });
   }
+}
+
+async function addCharacterToMovie (req,res){
+  console.log('addCharacterToMovie')
+  // a la peli que pasan el id como paramatro le agregamos el charcacter_id del body
+  const { id } = req.params;
+  const { character_id} = req.body;
+  try {
+
+    let newCharacterMovies = await CharacterMovies.create(
+      {
+        movieMovieId: id,
+        characterCharacterId: character_id
+      },
+      {
+        fields: [
+          "movieMovieId",
+          "characterCharacterId",
+        ],
+      }
+    );
+
+    if (newCharacterMovies) {
+      res.json({
+        message: "succesfully createad",
+        data: newCharacterMovies,
+      });
+    }
+    console.log(newCharacterMovies);
+  } catch (error) {
+  console.log(error.message);    
+  }
+  
+
+}
+
+async function addCharacterToMovie2 (req,res){
+  console.log('addCharacterToMovie')
+  //
+  const { id } = req.params;
+  const { character_id} = req.body;
+  try {
+
+    let oneMovie = await Movie.findOne({where :  {movie_id: id} })
+    let oneCharacter =await  Character.findOne({where: { character_id:character_id }})
+
+    
+   await oneMovie.addCharacters(oneCharacter);
+
+    if(oneCharacter && oneMovie){
+      res.json({
+        message:`character with ${character_id} was added succesfully to movie with id ${id}` 
+      })
+    }
+    console.log(added);
+
+    //console.log(oneCharacter, 'one Character ');
+
+ 
+  } catch (error) {
+  console.log(error.message);    
+  }
+  
+
 }
