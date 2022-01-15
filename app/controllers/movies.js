@@ -1,4 +1,5 @@
 const Movie = require("../models/Movie");
+const Gender = require("../models/Genders")
 
 module.exports = {
   v1: {
@@ -12,7 +13,7 @@ module.exports = {
 
 async function getMovies(req, res) {
   try {
-    let movies = await Movie.findAll();
+    let movies = await Movie.findAll({ include: [ Gender ] });
     if (movies) {
       res.status(200).json({
         message: " Succesfull",
