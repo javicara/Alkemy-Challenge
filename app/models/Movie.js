@@ -18,6 +18,9 @@ const Movie = db.define(
       image: {
         type: Sequelize.STRING,
       },
+      fecha_de_creacion: {
+        type: Sequelize.DATEONLY,
+      },
       score: {
         type: Sequelize.INTEGER,
       },

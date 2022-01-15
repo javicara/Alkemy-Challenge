@@ -20,18 +20,15 @@ app.use(express.urlencoded({ extended: true }));
   next();
 }) */
 
-const baseUrl = '/api/v1';
+const baseUrl = "/api/v1";
 
-
-app.use("/users", require("./routes/users"));
 app.use(`${baseUrl}/characters`, characterRoutes);
 app.use(`${baseUrl}/movies`, moviesRoutes);
 app.use(`${baseUrl}/genders`, gendersRoutes);
 
-
 async function createTables() {
   try {
-    Movie.belongsToMany(Character, { through: "characters_movies" }),
+      Movie.belongsToMany(Character, { through: "characters_movies" }),
       Character.belongsToMany(Movie, { through: "characters_movies" }),
       Gender.hasMany(Movie, { foreignKey: "gender_id" }),
       Movie.belongsTo(Gender, { foreignKey: "gender_id" });
@@ -40,6 +37,11 @@ async function createTables() {
     console.error(error);
   }
 }
-//createTables();
+createTables();
+
 app.listen(process.env.EXTERNAL_PORT || 3002);
-console.log("server runing in: 3002");
+if (process.env.EXTERNAL_PORT) {
+  console.log("server runing in:", process.env.EXTERNAL_PORT);
+} else {
+  console.log("server runing in: 3002");
+}

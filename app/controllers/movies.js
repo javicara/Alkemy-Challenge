@@ -1,4 +1,6 @@
 const Movie = require("../models/Movie");
+const Gender = require("../models/Genders");
+const Character = require("../models/Character");
 
 module.exports = {
   v1: {
@@ -6,13 +8,15 @@ module.exports = {
     getOneMovie,
     createMovie,
     modifyMovie,
-    deleteMovie
+    deleteMovie,
   },
 };
 
 async function getMovies(req, res) {
   try {
-    let movies = await Movie.findAll();
+    let movies = await Movie.findAll({
+      attributes: ["image", "title", "fecha_de_creacion"],
+    });
     if (movies) {
       res.status(200).json({
         message: " Succesfull",
@@ -33,7 +37,17 @@ async function getMovies(req, res) {
 async function getOneMovie(req, res) {
   const { id } = req.params;
   try {
-    let oneMovie = await Movie.findOne({ where: { movie_id: id } });
+    let oneMovie = await Movie.findOne({
+      where: { movie_id: id },
+      include: [
+        {
+          model: Gender,
+          attributes: ["name"],
+        },{
+          model: Character
+        }
+      ],
+    });
     if (oneMovie) {
       res.status(200).json({
         message: " Succesfull",
@@ -42,10 +56,11 @@ async function getOneMovie(req, res) {
     } else {
       res.status(404).json({
         message: "not found",
-        data:''
+        data: "",
       });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: " Something goes wrong",
       data: "",
@@ -54,7 +69,8 @@ async function getOneMovie(req, res) {
 }
 
 async function createMovie(req, res) {
-  const { title, image, score, is_movie,gender_id } = req.body;
+  const { title, image, score, is_movie, gender_id, fecha_de_creacion } =
+    req.body;
   try {
     let newMovie = await Movie.create(
       {
@@ -62,10 +78,18 @@ async function createMovie(req, res) {
         image,
         score,
         is_movie,
-        gender_id: gender_id || null
+        gender_id: gender_id || null,
+        fecha_de_creacion,
       },
       {
-        fields: ["title", "image", "score", "is_movie", "gender_id"],
+        fields: [
+          "title",
+          "image",
+          "score",
+          "is_movie",
+          "gender_id",
+          "fecha_de_creacion",
+        ],
       }
     );
     if (newMovie) {
@@ -81,26 +105,24 @@ async function createMovie(req, res) {
       data: {},
     });
   }
-
 }
 
 async function modifyMovie(req, res) {
   const { id } = req.params;
-  const { movie_id, title, image, score, is_movie,gender_id } = req.body;
-    try {
+  const { movie_id, title, image, score, is_movie, gender_id } = req.body;
+  try {
     let movieModified = await Movie.update(
-      
       {
         movie_id: movie_id || id,
         title,
         image,
         score,
         is_movie,
-        gender_id: gender_id || null
+        gender_id: gender_id || null,
       },
-      { where: {  movie_id: id } }
+      { where: { movie_id: id } }
     );
-    if (movieModified==1) {
+    if (movieModified == 1) {
       res.json({
         message: "succesfully modificated",
       });
