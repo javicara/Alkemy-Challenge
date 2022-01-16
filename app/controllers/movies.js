@@ -1,7 +1,7 @@
 const Movie = require("../models/Movie");
 const Gender = require("../models/Genders");
 const Character = require("../models/Character");
-const CharacterMovies = require("../models/Characters_Movies")
+const CharacterMovies = require("../models/Characters_Movies");
 
 module.exports = {
   v1: {
@@ -11,29 +11,110 @@ module.exports = {
     modifyMovie,
     deleteMovie,
     addCharacterToMovie,
-    addCharacterToMovie2
+    addCharacterToMovie2,
   },
 };
 
 async function getMovies(req, res) {
-  try {
-    let movies = await Movie.findAll({
-      attributes: ["image", "title", "fecha_de_creacion"],
-    });
-    if (movies) {
-      res.status(200).json({
-        message: " Succesfull",
-        data: movies,
+  if (req.query.name) {
+    try {
+      let movies = await Movie.findAll({
+        where: { title: req.query.name },
+        attributes: ["title", "image"],
       });
-    } else {
-      res.status(404);
+
+      if (movies) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: movies,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: " Something goes wrong",
-      data: "",
-    });
+  } else if (req.query.genre) {
+    try {
+      let movies = await Movie.findAll({
+        attributes: ["title", "image", "fecha_de_creacion", "score"],
+        include: [
+          {
+            model: Gender,
+            attributes: ["name"],
+            where: { gender_id: req.query.genre },
+          },
+        ],
+      });
+
+      if (movies) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: movies,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
+  } else if (req.query.order) {
+    try {
+      let movies = await Movie.findAll({
+        attributes: ["title", "image", "fecha_de_creacion", ],
+        order:[["fecha_de_creacion",req.query.order]]
+      });
+
+      if (movies) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: movies,
+        });
+      } else {
+        res.status(404).json({
+          message: "not found",
+          data: "",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
+  } else {
+    try {
+      let movies = await Movie.findAll({
+        attributes: ["image", "title", "fecha_de_creacion", "gender_id"],
+      });
+      if (movies) {
+        res.status(200).json({
+          message: " Succesfull",
+          data: movies,
+        });
+      } else {
+        res.status(404);
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: " Something goes wrong",
+        data: "",
+      });
+    }
   }
 }
 
@@ -46,10 +127,11 @@ async function getOneMovie(req, res) {
         {
           model: Gender,
           attributes: ["name"],
-        },{
+        },
+        {
           model: Character,
-          attributes: ["name","image","age","weight","history"]
-        }
+          attributes: ["name", "image", "age", "weight", "history"],
+        },
       ],
     });
     if (oneMovie) {
@@ -160,23 +242,19 @@ async function deleteMovie(req, res) {
   }
 }
 
-async function addCharacterToMovie (req,res){
-  console.log('addCharacterToMovie')
+async function addCharacterToMovie(req, res) {
+  console.log("addCharacterToMovie");
   // a la peli que pasan el id como paramatro le agregamos el charcacter_id del body
   const { id } = req.params;
-  const { character_id} = req.body;
+  const { character_id } = req.body;
   try {
-
     let newCharacterMovies = await CharacterMovies.create(
       {
         movieMovieId: id,
-        characterCharacterId: character_id
+        characterCharacterId: character_id,
       },
       {
-        fields: [
-          "movieMovieId",
-          "characterCharacterId",
-        ],
+        fields: ["movieMovieId", "characterCharacterId"],
       }
     );
 
@@ -188,38 +266,32 @@ async function addCharacterToMovie (req,res){
     }
     console.log(newCharacterMovies);
   } catch (error) {
-  console.log(error.message);    
+    console.log(error.message);
   }
-  
-
 }
 
-async function addCharacterToMovie2 (req,res){
-  console.log('addCharacterToMovie')
+async function addCharacterToMovie2(req, res) {
+  console.log("addCharacterToMovie");
   //
   const { id } = req.params;
-  const { character_id} = req.body;
+  const { character_id } = req.body;
   try {
+    let oneMovie = await Movie.findOne({ where: { movie_id: id } });
+    let oneCharacter = await Character.findOne({
+      where: { character_id: character_id },
+    });
 
-    let oneMovie = await Movie.findOne({where :  {movie_id: id} })
-    let oneCharacter =await  Character.findOne({where: { character_id:character_id }})
+    await oneMovie.addCharacters(oneCharacter);
 
-    
-   await oneMovie.addCharacters(oneCharacter);
-
-    if(oneCharacter && oneMovie){
+    if (oneCharacter && oneMovie) {
       res.json({
-        message:`character with ${character_id} was added succesfully to movie with id ${id}` 
-      })
+        message: `character with ${character_id} was added succesfully to movie with id ${id}`,
+      });
     }
     console.log(added);
 
     //console.log(oneCharacter, 'one Character ');
-
- 
   } catch (error) {
-  console.log(error.message);    
+    console.log(error.message);
   }
-  
-
 }
