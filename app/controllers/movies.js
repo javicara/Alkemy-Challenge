@@ -74,8 +74,8 @@ async function getMovies(req, res) {
   } else if (req.query.order) {
     try {
       let movies = await Movie.findAll({
-        attributes: ["title", "image", "fecha_de_creacion", ],
-        order:[["fecha_de_creacion",req.query.order]]
+        attributes: ["title", "image", "fecha_de_creacion"],
+        order: [["fecha_de_creacion", req.query.order]],
       });
 
       if (movies) {
