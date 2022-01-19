@@ -124,17 +124,16 @@ async function getCharacters(req, res) {
       });
     }
   } else if (req.query.movies) {
-    console.log('entra')
+    console.log("entra");
     try {
       let characters = await Character.findAll({
         include: [
           {
             model: Movie,
             attributes: [],
-            where:{movie_id:req.query.movies}
-          }
-  
-        ]
+            where: { movie_id: req.query.movies },
+          },
+        ],
       });
 
       if (characters) {

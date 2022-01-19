@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
 //docker
 /* const sequelize = new Sequelize(
@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
   }
 ) */
 
-//local 
+//local
 const sequelize = new Sequelize("alkemy", "alkemy", "alkemy", {
   host: "localhost",
   dialect: "postgres",
