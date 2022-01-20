@@ -108,22 +108,30 @@ async function rutaProtegidaController(req, res) {
       }
     }
   } catch (error) {
-    res.status(500).json({ msg: error });
+    //res.status(500).json({ msg: error });
     console.log(error);
   }
 }
 
 async function verifyToken(req, res, next) {
-  const token = req.headers["x-access-token"];
-  if (token) {
-    const verify = await jwt.verify(token, process.env.SECRET_JWT);
-    req.userId = verify.id;
-    console.log(verify);
-  } else {
-    return res.status(401).json({
+  try {
+    const token = req.headers["x-access-token"];
+    if (token) {
+      const verify = await jwt.verify(token, process.env.SECRET_JWT);
+      req.userId = verify.id;
+      console.log(verify);
+    } else {
+      return res.status(401).json({
+        auth: false,
+        msg: "No token provided",
+      });
+    }
+    next()
+  } catch {
+    res.status(401).json({
       auth: false,
-      msg: "No token provided",
+      msg: "Invalid token provided",
     });
   }
-  next();
+ 
 }
