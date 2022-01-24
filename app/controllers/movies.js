@@ -277,8 +277,7 @@ async function addCharacterToMovie(req, res) {
 }
 
 async function addCharacterToMovie2(req, res) {
-  console.log("addCharacterToMovie");
-  //
+ 
   const { id } = req.params;
   const { character_id } = req.body;
   try {
@@ -291,11 +290,9 @@ async function addCharacterToMovie2(req, res) {
 
     if (oneCharacter && oneMovie) {
       res.json({
-        message: `character with ${character_id} was added succesfully to movie with id ${id}`,
+        message: `character with id: ${character_id} was added succesfully to movie with id: ${id}`,
       });
     }
-    console.log(added);
-
     //console.log(oneCharacter, 'one Character ');
   } catch (error) {
     console.log(error.message);
