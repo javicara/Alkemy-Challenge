@@ -73,8 +73,6 @@ async function modifyCharacter(req, res) {
 }
 
 async function getCharacters(req, res) {
-  console.log("Get Characters", req.query);
-
   if (req.query.name) {
     try {
       let characters = await Character.findAll({
@@ -124,7 +122,6 @@ async function getCharacters(req, res) {
       });
     }
   } else if (req.query.movies) {
-    console.log("entra");
     try {
       let characters = await Character.findAll({
         include: [

@@ -57,7 +57,7 @@ const authController = require("../controllers/authUsers");
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Characters'
+ *                $ref: '#/components/schemas/Character'
  *            
  */
 router.get("/", characters.v1.getCharacters);
