@@ -90,7 +90,9 @@ async function logUser(req, res, next) {
         msg: "incorrect Password",
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function rutaProtegidaController(req, res) {

@@ -98,7 +98,7 @@ async function getMovies(req, res) {
   } else {
     try {
       let movies = await Movie.findAll({
-        attributes: ["image", "title", "fecha_de_creacion", "gender_id"],
+        attributes: ["image", "title", "fecha_de_creacion"],
       });
       if (movies) {
         res.status(200).json({
@@ -231,6 +231,12 @@ async function deleteMovie(req, res) {
       res.status(200).json({
         message: " succesfully deleted",
         data: movie,
+      });
+    }
+    else{
+      res.status(404).json({
+        message: "not found",
+        data: [],
       });
     }
   } catch (error) {
