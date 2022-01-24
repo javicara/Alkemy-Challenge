@@ -1,14 +1,13 @@
-const Sequelize = require('sequelize');
-const db = require('../util/database');
+const Sequelize = require("sequelize");
+const db = require("../util/database");
 
-
-  const Gender = db.define(
+const Gender = db.define(
   "gender",
   {
     gender_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: Sequelize.STRING,

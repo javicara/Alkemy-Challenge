@@ -6,7 +6,7 @@ module.exports = {
     getOneGender,
     createGender,
     modifyGender,
-    deleteGender
+    deleteGender,
   },
 };
 
@@ -19,11 +19,12 @@ async function getGenders(req, res) {
         data: genders,
       });
     } else {
-      console.log("aca")
+      console.log("aca");
       res.status(404).json({
         message: "not found",
-        data:''})
-      }
+        data: "",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -45,7 +46,7 @@ async function getOneGender(req, res) {
     } else {
       res.status(404).json({
         message: "not found",
-        data:''
+        data: "",
       });
     }
   } catch (error) {
@@ -57,12 +58,12 @@ async function getOneGender(req, res) {
 }
 
 async function createGender(req, res) {
-  const {name , image } = req.body;
+  const { name, image } = req.body;
   try {
     let newGender = await Gender.create(
       {
         name,
-        image
+        image,
       },
       {
         fields: ["name", "image"],
@@ -81,24 +82,21 @@ async function createGender(req, res) {
       data: {},
     });
   }
-
 }
 
 async function modifyGender(req, res) {
   const { id } = req.params;
   const { gender_id, name, image } = req.body;
-    try {
+  try {
     let genderModified = await Gender.update(
-      
       {
         gender_id: gender_id || id,
         name,
         image,
-        
       },
-      { where: {  gender_id: id } }
+      { where: { gender_id: id } }
     );
-    if (genderModified==1) {
+    if (genderModified == 1) {
       res.json({
         message: "succesfully modificated",
       });
@@ -115,7 +113,7 @@ async function modifyGender(req, res) {
 async function deleteGender(req, res) {
   try {
     let gender = await Gender.destroy({
-      where: {gender_id: req.params.id },
+      where: { gender_id: req.params.id },
     });
     if (gender) {
       res.status(200).json({
