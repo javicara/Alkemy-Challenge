@@ -1,7 +1,10 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sgMail = require('@sendgrid/mail');
 require("dotenv").config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 
 module.exports = {
   v1: {
@@ -41,7 +44,10 @@ async function registerUser(req, res, next) {
           expiresIn: 3600 * 24,
         }
       );
-
+      if(user && token){
+        
+        sendMail(user.email , user.user_name);
+      }
       console.log("token: ", token);
       res.status(201).json({
         id: user.user_id,
@@ -136,4 +142,24 @@ async function verifyToken(req, res, next) {
     });
   }
  
+}
+
+async function sendMail(email, username){
+  const msg = {
+    to: email,
+    from: 'javicaraballo1@gmail.com', // Use the email address or domain you verified above
+    subject: `Welcome ${username} to the alkemy API by Javion`,
+    text: 'Welcome to the alkemy API by Javion',
+    html: '<strong>Welcome to the alkemy API by Javion</strong>',
+  };
+  try {
+    await sgMail.send(msg);
+    console.log('Email sended to: ', email)
+  } catch (error) {
+    console.error('aca ',error);
+
+    if (error.response) {
+      console.error('here', error.response.body)
+    }
+  }
 }
