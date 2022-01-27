@@ -13,9 +13,16 @@ Esta API de prueba se puede correr en un contendor de [Docker](#instalación-doc
 
 ### Instalación Local 
 En una consola:
-- git clone https://github.com/javicara/challengeAlkemy.git
-- cd challengeAlkemy
-- `npm install`
+
+````
+git clone https://github.com/javicara/challengeAlkemy.git
+````
+````
+cd challengeAlkemy
+````
+````
+npm install
+````
 
 
 #### Start
@@ -39,14 +46,22 @@ Para entender el funcionamiento de los endpoints se debe visitar el link que se 
 ### Instalción Docker
 Claramente es necesario tener Docker.
 En una consola:
-- git clone https://github.com/javicara/challengeAlkemy.git
-- cd challengeAlkemy
-- git checkout --track origin/docker
+
+````
+git clone https://github.com/javicara/challengeAlkemy.git
+````
+````
+cd challengeAlkemy
+````
+````
+git checkout --track origin/docker
+````
+
 En este caso tambien a proposito estan expustas 
 
 #### Start with docker
 - docker compose up
 
-Y eso es todo el la consola deberia mostrar un mensaje similar al de la insalacion local y el puerto por defecto es el 3001. 
+Y eso es todo. La consola va a mostrar un mensaje similar al de la insalacion local y el puerto por defecto es el 3001. 
 En este caso para ver la documentacion http://localhost:3001/api/v1/docs/
 
