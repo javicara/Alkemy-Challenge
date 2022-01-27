@@ -70,8 +70,7 @@ async function createTables() {
 createTables();
 
 app.listen(port);
-if (process.env.EXTERNAL_PORT) {
-  console.log("server runing in:", process.env.EXTERNAL_PORT);
-} else {
-  console.log("server runing in: 3002");
-}
+if (port) {
+  console.log("server runing in:", port);
+  console.log(`To see the API documentation, please visit http://localhost:${port}/api/v1/docs/`)
+} 
