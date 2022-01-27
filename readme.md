@@ -9,9 +9,9 @@ personajes que lo componen y entender en qué películas estos participaron. Por
 exponer la información para que cualquier frontend pueda consumirla.
 
 ### Antes de empezar...
-Esta API de prueba se puede correr en un contendor de [docker](instalacion-con-docker) o [localmente](#instalacion-local). Para correrla localmente es necesario tener instalado Node y Postgres SQL.
+Esta API de prueba se puede correr en un contendor de [docker](instalacion-docker) o [localmente](#instalacion-local). Para correrla localmente es necesario tener instalado Node y Postgres SQL.
 
-### Instalacion Local 
+### Instalación Local 
 En una consola:
 - git clone https://github.com/javicara/challengeAlkemy.git
 - cd challengeAlkemy
@@ -36,7 +36,7 @@ Por defecto correra en el puerto 3002 y mostrara lo siguiente:
 ### Funcionamiento de los endpoints.
 Para entender el funcionamiento de los endpoints se debe visitar el link que se muestra en consola. La misma fue realizada con Swagger.
 
-### Instalcion Docker
+### Instalción Docker
 Claramente es necesario tener Docker.
 En una consola:
 - git clone https://github.com/javicara/challengeAlkemy.git
