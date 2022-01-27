@@ -9,7 +9,7 @@ personajes que lo componen y entender en qué películas estos participaron. Por
 exponer la información para que cualquier frontend pueda consumirla.
 
 ### Antes de empezar...
-Esta API de prueba se puede correr en un contendor de [Docker](instalación-docker) o [Localmente](#instalación-local). Para correrla localmente es necesario tener instalado Node y Postgres SQL.
+Esta API de prueba se puede correr en un contendor de [Docker](#instalación-docker) o [Localmente](#instalación-local). Para correrla localmente es necesario tener instalado Node y Postgres SQL.
 
 ### Instalación Local 
 En una consola:
