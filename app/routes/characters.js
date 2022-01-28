@@ -48,6 +48,22 @@ const authController = require("../controllers/authUsers");
  *  /api/v1/characters:
  *  get:
  *    summary: Returns the list of all the characters
+ *    parameters:
+ *      - in: query
+ *        name: name
+ *        schema:
+ *          type: string
+ *        description: To filter charcaters by name
+ *      - in: query
+ *        name: age
+ *        schema:
+ *          type: string
+ *        description:  To filter charcaters by age
+ *      - in: query
+ *        name: movies
+ *        schema:
+ *          type: string
+ *        description:  To filter charcaters by films or series where acted 
  *    tags: [Characters]
  *    responses:
  *      200:

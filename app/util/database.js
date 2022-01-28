@@ -7,7 +7,8 @@ const Sequelize = require("sequelize");
   process.env.PGPASSWORD,
   {
     host: process.env.PGHOST,
-    dialect: 'postgres'
+    dialect: 'postgres',
+    logging: false
   }
 ) 
 

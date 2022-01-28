@@ -50,6 +50,22 @@ const router = require("express").Router();
  *  /api/v1/movies:
  *  get:
  *    summary: Returns the list of all the films and series
+ *    parameters:
+ *      - in: query
+ *        name: name
+ *        schema:
+ *          type: string
+ *        description: To filter films or series by name 
+ *      - in: query
+ *        name: genre
+ *        schema:
+ *          type: string
+ *        description: To filter films or serie by genreId 
+ *      - in: query
+ *        name: order
+ *        schema:
+ *          type: string
+ *        description: To order the list ASC or DESC 
  *    tags: [Films/Series]
  *    responses:
  *      200:
