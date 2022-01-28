@@ -65,3 +65,5 @@ En este caso tambien a proposito estan expustas
 Y eso es todo. La consola va a mostrar un mensaje similar al de la insalacion local y el puerto por defecto es el 3001. 
 En este caso para ver la documentacion http://localhost:3001/api/v1/docs/
 
+#### Aclaracion Sendgrid
+Para que se envie el mail al logearse es necesiaro la apikey del servicio que no puede ser expuesta. 
