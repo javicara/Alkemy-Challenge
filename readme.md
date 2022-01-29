@@ -43,7 +43,7 @@ Por defecto correra en el puerto 3002 y mostrara lo siguiente:
 ### Funcionamiento de los endpoints.
 Para entender el funcionamiento de los endpoints se debe visitar el link que se muestra en consola. La misma fue realizada con Swagger.
 
-### Instalción Docker
+### Instalación Docker
 Claramente es necesario tener Docker.
 En una consola:
 
