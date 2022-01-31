@@ -108,6 +108,34 @@ router.get("/:id", moviesController.v1.getOneMovie);
 
 /**
  * @swagger
+ *  /api/v1/movies/{id}/characters:
+ *  get:
+ *    summary: Get the characters of a film or serie passing the  filmId by parameter
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: the film or serie id 
+ *        schema:
+ *          type: string
+ *        required: true
+ *    tags: [Films/Series]
+ *    responses:
+ *      200:
+ *        description: list of charcaters
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              $ref: '#/components/schemas/Movie'
+ *      404: 
+ *        description: Film/serie was not found
+ *            
+ */
+router.get("/:id/characters", moviesController.v1.getCharactersOfMovie);
+
+
+/**
+ * @swagger
  *  /api/v1/movies:
  *  post:
  *    security:

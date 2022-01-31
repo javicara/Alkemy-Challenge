@@ -7,6 +7,7 @@ module.exports = {
   v1: {
     getMovies,
     getOneMovie,
+    getCharactersOfMovie,
     createMovie,
     modifyMovie,
     deleteMovie,
@@ -115,6 +116,53 @@ async function getMovies(req, res) {
         data: "",
       });
     }
+  }
+}
+
+async function getCharactersOfMovie(req, res) {
+  const { id } = req.params;
+
+  try {
+    let oneMovie = await Movie.findOne({
+      where: { movie_id: id },
+      include: [
+        {
+          model: Character,
+        },
+      ],
+    });
+    let characters = [];
+    if (oneMovie) {
+      oneMovie.characters.forEach((c) => {
+        let character = {
+          character_id: c.Character_id,
+          name: c.name,
+          image: c.image,
+          age: c.age,
+          weight: c.weight,
+          history: c.history,
+        };
+        characters.push(character);
+      });
+      res.status(200).json({
+        message: " Succesfull",
+        data: {
+          film: oneMovie.title,
+          characters: characters,
+        },
+      });
+    } else {
+      res.status(404).json({
+        message: "not found",
+        data: "",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: " Something goes wrong",
+      data: "",
+    });
   }
 }
 
@@ -232,8 +280,7 @@ async function deleteMovie(req, res) {
         message: " succesfully deleted",
         data: movie,
       });
-    }
-    else{
+    } else {
       res.status(404).json({
         message: "not found",
         data: [],
@@ -277,7 +324,6 @@ async function addCharacterToMovie(req, res) {
 }
 
 async function addCharacterToMovie2(req, res) {
- 
   const { id } = req.params;
   const { character_id } = req.body;
   try {
