@@ -200,6 +200,43 @@ router.put(
   authController.v1.verifyToken,
   moviesController.v1.modifyMovie
 );
+
+
+
+
+/**
+ * @swagger
+ *  /api/v1/movies/{id}/genre/{genreId}:
+ *  patch:
+ *    security:
+ *      - bearerAuth: []
+ *    summary: Add a gender to a Film
+ *    parameters:
+ *      - in: header
+ *        name: x-access-token
+ *        schema:
+ *          type: string
+ *        required: true
+ *      - in: path
+ *        name: id
+ *        description: the film or serie id
+ *      - in: path
+ *        name: genreId
+ *        description: the genre id
+ *        schema:
+ *          type: string
+ *        required: true
+ *    tags: [Films/Series]
+ *    responses:
+ *      200:
+ *        description: succesfully modificated!
+ */
+
+router.patch(
+  "/:id/genre/:genreId",
+  authController.v1.verifyToken,
+  moviesController.v1.addGenreToMovie
+);
 /**
  * @swagger
  *  /api/v1/movies/{id}:

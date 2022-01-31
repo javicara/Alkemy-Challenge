@@ -127,7 +127,7 @@ async function verifyToken(req, res, next) {
     if (token) {
       const verify = await jwt.verify(token, process.env.SECRET_JWT);
       req.userId = verify.id;
-      console.log(verify);
+      //console.log(verify);
     } else {
       return res.status(401).json({
         auth: false,

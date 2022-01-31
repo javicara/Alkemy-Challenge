@@ -11,6 +11,7 @@ module.exports = {
     createMovie,
     modifyMovie,
     deleteMovie,
+    addGenreToMovie,
     addCharacterToMovie,
     addCharacterToMovie2,
   },
@@ -259,6 +260,40 @@ async function modifyMovie(req, res) {
     if (movieModified == 1) {
       res.json({
         message: "succesfully modificated",
+      });
+    }
+  } catch (e) {
+    console.log("error: ", e.message);
+    res.status(500).json({
+      message: "Something goes wrong",
+      data: {},
+    });
+  }
+}
+
+async function addGenreToMovie(req, res) {
+  const { id, genreId } = req.params;
+  try {
+    let movieModified = await Movie.update(
+      {
+        gender_id: genreId || null,
+      },
+      { where: { movie_id: id } }
+    );
+    if (movieModified == 1) {
+      let movie = await Movie.findOne({
+        where: { movie_id: id },
+        attributes: ["title","movie_id"],
+        include: [
+          {
+            model: Gender,
+            attributes: ["name"],
+          },
+        ],
+      });
+      res.json({
+        message: "succesfully modificated",
+        data: movie,
       });
     }
   } catch (e) {
